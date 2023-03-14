@@ -25,6 +25,5 @@ jobs:
         with:
           context: src
           push: true
-          target: base
           build-args: IMAGE_VERSION=${{ steps.get_version.outputs.version-without-v }}
           tags: ghcr.io/${{ github.repository }}:39-${{ steps.get_version.outputs.version-without-v }}
