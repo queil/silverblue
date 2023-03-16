@@ -12,8 +12,11 @@ RUN rpm-ostree install \
     rm -r /var/* && \
     ostree container commit
 
-ENV VSCODE_EXTENSIONS /var/vscode/extensions
-RUN code --install-extension Ionide.Ionide-fsharp --no-sandbox && \
-    code --install-extension ms-vscode-remote.vscode-remote-extensionpack --no-sandbox  && \
-    code --install-extension rust-lang.rust-analyzer --no-sandbox  && \
+ARG USER=queil
+RUN useradd -m -u 1000 $USER
+USER queil
+
+RUN code --install-extension Ionide.Ionide-fsharp && \
+    code --install-extension ms-vscode-remote.vscode-remote-extensionpack  && \
+    code --install-extension rust-lang.rust-analyzer && \
     ostree container commit
