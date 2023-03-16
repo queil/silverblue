@@ -8,5 +8,6 @@ RUN rpm-ostree install \
       dotnet-sdk-7.0 \
       code \
       cascadia-code-fonts && \
+    ln -s /usr/bin/ld.bfd /usr/bin/ld && \
     rm -r /var/* && \
     ostree container commit
