@@ -11,3 +11,8 @@ RUN rpm-ostree install \
     ln -s /usr/bin/ld.bfd /usr/bin/ld && \
     rm -r /var/* && \
     ostree container commit
+
+RUN code --install-extension Ionide.Ionide-fsharp && \
+    code --install-extension ms-vscode-remote.vscode-remote-extensionpack && \
+    code --install-extension rust-lang.rust-analyzer && \
+    ostree container commit
