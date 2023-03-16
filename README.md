@@ -7,3 +7,7 @@ The image can be rebased to via:
 ```bash
 rpm-ostree rebase --experimental ostree-unverified-registry:ghcr.io/queil/silverblue:39-0.4.0
 ```
+
+## Resources
+
+https://coreos.github.io/rpm-ostree/container/
