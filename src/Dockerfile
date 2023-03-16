@@ -12,11 +12,10 @@ RUN rpm-ostree install \
     rm -r /var/* && \
     ostree container commit
 
-ARG USER=queil
-RUN useradd -m -u 1000 $USER
-USER queil
+ARG VSCODE_USER_DATA_DIR=/usr/vscode
+ENV VSCODE_EXTENSIONS=/usr/vscode/extensions
 
-RUN code --install-extension Ionide.Ionide-fsharp && \
-    code --install-extension ms-vscode-remote.vscode-remote-extensionpack  && \
-    code --install-extension rust-lang.rust-analyzer && \
+RUN code --install-extension Ionide.Ionide-fsharp --no-sandbox --user-data-dir $VSCODE_USER_DATA_DIR && \
+    code --install-extension ms-vscode-remote.vscode-remote-extensionpack --no-sandbox --user-data-dir $VSCODE_USER_DATA_DIR  && \
+    code --install-extension rust-lang.rust-analyzer --no-sandbox --user-data-dir $VSCODE_USER_DATA_DIR && \
     ostree container commit
