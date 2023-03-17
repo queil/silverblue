@@ -13,9 +13,10 @@ RUN rpm-ostree install \
     ostree container commit
 
 ARG VSCODE_USER_DATA_DIR=/usr/vscode
+ARG VSCODE_EXTENSIONS=${VSCODE_USER_DATA_DIR}/extensions
 
 RUN code --install-extension Ionide.Ionide-fsharp --no-sandbox --user-data-dir $VSCODE_USER_DATA_DIR && \
     code --install-extension ms-vscode-remote.vscode-remote-extensionpack --no-sandbox --user-data-dir $VSCODE_USER_DATA_DIR  && \
     code --install-extension rust-lang.rust-analyzer --no-sandbox --user-data-dir $VSCODE_USER_DATA_DIR && \
-    echo "export VSCODE_EXTENSIONS=${VSCODE_USER_DATA_DIR}/extensions" >> /etc/bashrc && \
+    echo "export VSCODE_EXTENSIONS=${VSCODE_EXTENSIONS}" >> /etc/bashrc && \
     ostree container commit
