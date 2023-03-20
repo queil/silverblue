@@ -5,6 +5,7 @@ RUN sh -c 'echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.mi
 RUN rpm-ostree install \
       rust \
       cargo \
+      hugo \
       dotnet-sdk-7.0 \
       code \
       cascadia-code-fonts && \
