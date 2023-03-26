@@ -23,6 +23,6 @@ RUN code --install-extension Ionide.Ionide-fsharp --no-sandbox --user-data-dir $
     ostree container commit
 
 RUN curl -sSL https://starship.rs/install.sh -o ./install.sh && \
-    chmod +x ./install.sh && ./install.sh --yes && rm ./install.sh && \
+    chmod +x ./install.sh && ./install.sh --yes --bin-dir /usr/bin && rm ./install.sh && \
     echo 'eval "$(starship init bash)"' >> /etc/bashrc && \
     ostree container commit
