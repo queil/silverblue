@@ -21,3 +21,8 @@ RUN code --install-extension Ionide.Ionide-fsharp --no-sandbox --user-data-dir $
     code --install-extension rust-lang.rust-analyzer --no-sandbox --user-data-dir $VSCODE_USER_DATA_DIR && \
     echo "export VSCODE_EXTENSIONS=${VSCODE_EXTENSIONS}" >> /etc/bashrc && \
     ostree container commit
+
+RUN curl -sSL https://starship.rs/install.sh -o ./install.sh && \
+    chmod +x ./install.sh && ./install.sh --yes && rm ./install.sh && \
+    echo 'eval "$(starship init bash)"' >> /etc/bashrc && \
+    ostree container commit
