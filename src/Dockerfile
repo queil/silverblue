@@ -26,7 +26,7 @@ RUN curl -sSL https://starship.rs/install.sh -o ./install.sh && \
     chmod +x ./install.sh && ./install.sh --yes --bin-dir /usr/bin && rm ./install.sh && \
     echo 'eval "$(starship init bash)"' >> /etc/bashrc && \
     ostree container commit
-RUN SLACK_VER=$(curl -sSL https://slack.com/release-notes/linux | grep -Poh "Slack \d+\.\d+\.\d+"  | cut -d ' ' -f 2 | head -n 1) \
+RUN export SLACK_VER=$(curl -sSL https://slack.com/release-notes/linux | grep -Poh "Slack \d+\.\d+\.\d+" | cut -d ' ' -f 2 | head -n 1 | tr -d '\n') && \
     curl -sSL https://downloads.slack-edge.com/releases/linux/$SLACK_VER/prod/x64/slack-$SLACK_VER-0.1.el8.x86_64.rpm -o slack.rpm && \
     rpm-ostree install slack.rpm && rm slack.rpm && \
     ostree container commit
