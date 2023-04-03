@@ -8,17 +8,17 @@ RUN rpm-ostree install -y \
       code \
       cascadia-code-fonts \
       keepassxc && \
+      ln -s /usr/bin/ld.bfd /usr/bin/ld && \
     rm -r /var/* && \
     ostree container commit
 
 # RUST
 
+# only set env vars during install so the binaries and caches are separated
 ARG CARGO_HOME=/usr/bin/.cargo
 ARG RUSTUP_HOME=/usr/bin/.rustup
 
-RUN echo "export CARGO_HOME=${CARGO_HOME}" >> /etc/bashrc && \
-    echo "export RUSTUP_HOME=${RUSTUP_HOME}" >> /etc/bashrc && \
-    echo "export PATH=${PATH}:${CARGO_HOME}/bin" >> /etc/bashrc && \
+RUN echo "export PATH=${PATH}:${CARGO_HOME}/bin" >> /etc/bashrc && \
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --no-modify-path && \
     ostree container commit
 
