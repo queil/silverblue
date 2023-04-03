@@ -18,7 +18,7 @@ ARG RUSTUP_HOME=/usr/bin/.rustup
 
 RUN echo "export CARGO_HOME=${CARGO_HOME}" >> /etc/bashrc && \
     echo "export RUSTUP_HOME=${RUSTUP_HOME}" >> /etc/bashrc && \
-    echo "export PATH=${PATH}:${CARGO_HOME}" >> /etc/bashrc && \
+    echo "export PATH=${PATH}:${CARGO_HOME}/bin" >> /etc/bashrc && \
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --no-modify-path && \
     ostree container commit
 
