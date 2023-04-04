@@ -51,4 +51,7 @@ RUN export SLACK_VER=$(curl -sSL https://slack.com/release-notes/linux | grep -P
 # ROOZ
 
 RUN curl -sSL https://github.com/queil/rooz/releases/latest/download/rooz -o ./rooz && chmod +x ./rooz && sudo mv ./rooz /usr/bin && \
+    echo "export ROOZ_USER=queil" >> /etc/bashrc && \
+    echo "export ROOZ_IMAGE=ghcr.io/queil/image:latest" >> /etc/bashrc && \
+    echo "export ROOZ_SHELL=bash" >> /etc/bashrc && \
     ostree container commit
