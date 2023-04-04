@@ -47,3 +47,8 @@ RUN export SLACK_VER=$(curl -sSL https://slack.com/release-notes/linux | grep -P
     curl -sSL https://downloads.slack-edge.com/releases/linux/$SLACK_VER/prod/x64/slack-$SLACK_VER-0.1.el8.x86_64.rpm -o slack.rpm && \
     rpm-ostree install slack.rpm && rm slack.rpm && \
     ostree container commit
+
+# ROOZ
+
+RUN curl -sSL https://github.com/queil/rooz/releases/latest/download/rooz -o ./rooz && chmod +x ./rooz && sudo mv ./rooz /usr/bin && \
+    ostree container commit
