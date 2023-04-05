@@ -51,6 +51,6 @@ RUN export SLACK_VER=$(curl -sSL https://slack.com/release-notes/linux | grep -P
     ostree container commit
 
 # ROOZ
-
-RUN curl -sSL https://github.com/queil/rooz/releases/latest/download/rooz -o ./rooz && chmod +x ./rooz && sudo mv ./rooz /usr/bin && \
+ARG ROOZ_VER=0.17.0
+RUN curl -sSL https://github.com/queil/rooz/releases/download/v${ROOZ_VER}/rooz -o ./rooz && chmod +x ./rooz && sudo mv ./rooz /usr/bin && \
     ostree container commit
