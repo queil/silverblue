@@ -12,13 +12,15 @@ RUN rpm-ostree install -y \
     rm -r /var/* && \
     ostree container commit
 
+COPY ./custom.sh /etc/profile.d/ && ostree container commit
+
 # RUST
 
 # only set env vars during install so the binaries and caches are separated
 ARG CARGO_HOME=/usr/bin/.cargo
 ARG RUSTUP_HOME=/usr/bin/.rustup
 
-RUN echo "export PATH=${PATH}:${CARGO_HOME}/bin" >> /etc/bashrc && \
+RUN echo "export PATH=${PATH}:${CARGO_HOME}/bin" >> /etc/profile.d/custom.sh && \
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --no-modify-path && \
     ostree container commit
 
@@ -31,14 +33,13 @@ RUN code --install-extension Ionide.Ionide-fsharp --no-sandbox --user-data-dir $
     code --install-extension ms-vscode-remote.remote-containers --no-sandbox --user-data-dir $VSCODE_USER_DATA_DIR  && \
     code --install-extension rust-lang.rust-analyzer --no-sandbox --user-data-dir $VSCODE_USER_DATA_DIR && \
     code --install-extension streetsidesoftware.code-spell-checker --no-sandbox --user-data-dir $VSCODE_USER_DATA_DIR && \
-    echo "export VSCODE_EXTENSIONS=${VSCODE_EXTENSIONS}" >> /etc/bashrc && \
+    echo "export VSCODE_EXTENSIONS=${VSCODE_EXTENSIONS}" >> /etc/profile.d/custom.sh && \
     ostree container commit
 
 # STARSHIP
 
 RUN curl -sSL https://starship.rs/install.sh -o ./install.sh && \
     chmod +x ./install.sh && ./install.sh --yes --bin-dir /usr/bin && rm ./install.sh && \
-    echo 'eval "$(starship init bash)"' >> /etc/bashrc && \
     ostree container commit
 
 # SLACK
@@ -51,7 +52,4 @@ RUN export SLACK_VER=$(curl -sSL https://slack.com/release-notes/linux | grep -P
 # ROOZ
 
 RUN curl -sSL https://github.com/queil/rooz/releases/latest/download/rooz -o ./rooz && chmod +x ./rooz && sudo mv ./rooz /usr/bin && \
-    echo "export ROOZ_USER=queil" >> /etc/bashrc && \
-    echo "export ROOZ_IMAGE=ghcr.io/queil/image:latest" >> /etc/bashrc && \
-    echo "export ROOZ_SHELL=bash" >> /etc/bashrc && \
     ostree container commit
