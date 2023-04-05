@@ -6,7 +6,9 @@ COPY ./custom.sh /etc/
 COPY ./settings.dconf /tmp/settings.dconf
 
 RUN echo ". /etc/custom.sh" >> /etc/bashrc && \
+    echo "0341ab6d8c974043b7551060e20057ea" > /etc/machine-id && \
     dconf load / < /tmp/settings.dconf && \
+    rm /etc/machine-id && rm /tmp/settings.dconf && \
     ostree container commit
 
 RUN rpm-ostree install -y \
