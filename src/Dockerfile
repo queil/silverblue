@@ -2,7 +2,8 @@ FROM quay.io/fedora/fedora-silverblue:39
 
 RUN sh -c 'echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/vscode.repo' 
 
-COPY ./custom.sh /etc/profile.d/ 
+COPY ./custom.sh /etc/
+RUN echo ". /etc/custom.sh" >> /etc/bashrc && ostree container commit
 
 RUN rpm-ostree install -y \
       dotnet-sdk-7.0 \
@@ -20,7 +21,7 @@ RUN rpm-ostree install -y \
 ARG CARGO_HOME=/usr/bin/.cargo
 ARG RUSTUP_HOME=/usr/bin/.rustup
 
-RUN echo "export PATH=${PATH}:${CARGO_HOME}/bin" >> /etc/profile.d/custom.sh && \
+RUN echo "export PATH=${PATH}:${CARGO_HOME}/bin" >> /etc/custom.sh && \
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --no-modify-path && \
     ostree container commit
 
@@ -33,7 +34,7 @@ RUN code --install-extension Ionide.Ionide-fsharp --no-sandbox --user-data-dir $
     code --install-extension ms-vscode-remote.remote-containers --no-sandbox --user-data-dir $VSCODE_USER_DATA_DIR  && \
     code --install-extension rust-lang.rust-analyzer --no-sandbox --user-data-dir $VSCODE_USER_DATA_DIR && \
     code --install-extension streetsidesoftware.code-spell-checker --no-sandbox --user-data-dir $VSCODE_USER_DATA_DIR && \
-    echo "export VSCODE_EXTENSIONS=${VSCODE_EXTENSIONS}" >> /etc/profile.d/custom.sh && \
+    echo "export VSCODE_EXTENSIONS=${VSCODE_EXTENSIONS}" >> /etc/custom.sh && \
     ostree container commit
 
 # STARSHIP
