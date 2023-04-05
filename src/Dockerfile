@@ -2,6 +2,8 @@ FROM quay.io/fedora/fedora-silverblue:39
 
 RUN sh -c 'echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/vscode.repo' 
 
+COPY ./custom.sh /etc/profile.d/ 
+
 RUN rpm-ostree install -y \
       dotnet-sdk-7.0 \
       hugo \
@@ -11,8 +13,6 @@ RUN rpm-ostree install -y \
       ln -s /usr/bin/ld.bfd /usr/bin/ld && \
     rm -r /var/* && \
     ostree container commit
-
-COPY ./custom.sh /etc/profile.d/ && ostree container commit
 
 # RUST
 
