@@ -3,13 +3,7 @@ FROM quay.io/fedora/fedora-silverblue:39
 RUN sh -c 'echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/vscode.repo' 
 
 COPY ./custom.sh /etc/
-COPY ./settings.dconf /tmp/settings.dconf
-
-RUN echo ". /etc/custom.sh" >> /etc/bashrc && \
-    echo "0341ab6d8c974043b7551060e20057ea" > /etc/machine-id && \
-    dconf load / < /tmp/settings.dconf && \
-    rm /etc/machine-id && rm /tmp/settings.dconf && \
-    ostree container commit
+RUN echo ". /etc/custom.sh" >> /etc/bashrc && ostree container commit
 
 RUN rpm-ostree install -y \
       dotnet-sdk-7.0 \
