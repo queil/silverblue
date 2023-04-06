@@ -6,7 +6,7 @@ ConditionPathExists=!/etc/initok
 
 [Service]
 Type=oneshot
-ExecStart=/usr/bin/queil-init.sh
+ExecStart=/bin/bash /usr/bin/queil-init.sh
 ExecStartPost=/usr/bin/touch /etc/initok
 RemainAfterExit=no
 
