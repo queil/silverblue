@@ -2,16 +2,6 @@ FROM quay.io/fedora/fedora-silverblue:39
 
 RUN sh -c 'echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/vscode.repo' 
 
-COPY ./custom.sh /etc/custom.sh
-COPY ./settings.dconf /etc/settings.dconf
-COPY ./init.sh /usr/bin/queil-init.sh
-COPY ./init.service /lib/systemd/system/queil-init.service
-
-RUN echo ". /etc/custom.sh" >> /etc/bashrc && \
-    systemctl enable queil-init && \
-    chmod +x usr/bin/queil-init.sh && \
-    ostree container commit
-
 # DOWNLOAD SLACK
 
 RUN export SLACK_VER=$(curl -sSL https://slack.com/release-notes/linux | grep -Poh "Slack \d+\.\d+\.\d+" | cut -d ' ' -f 2 | head -n 1 | tr -d '\n') && \
@@ -27,6 +17,9 @@ RUN rpm-ostree install -y \
       ln -s /usr/bin/ld.bfd /usr/bin/ld && \
     rm -r /var/* && rm slack.rpm && \
     ostree container commit
+
+COPY ./custom.sh /etc/custom.sh
+RUN ostree container commit
 
 # RUST
 
@@ -59,4 +52,13 @@ RUN curl -sSL https://starship.rs/install.sh -o ./install.sh && \
 # ROOZ
 ARG ROOZ_VER=0.17.0
 RUN curl -sSL https://github.com/queil/rooz/releases/download/v${ROOZ_VER}/rooz -o ./rooz && chmod +x ./rooz && sudo mv ./rooz /usr/bin && \
+    ostree container commit
+
+COPY ./settings.dconf /etc/settings.dconf
+COPY ./init.sh /usr/bin/queil-init.sh
+COPY ./init.service /lib/systemd/system/queil-init.service
+
+RUN echo ". /etc/custom.sh" >> /etc/bashrc && \
+    systemctl enable queil-init && \
+    chmod +x usr/bin/queil-init.sh && \
     ostree container commit
