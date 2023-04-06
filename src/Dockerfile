@@ -11,14 +11,20 @@ RUN echo ". /etc/custom.sh" >> /etc/bashrc && \
     chmod +x usr/bin/queil-init.sh && \
     ostree container commit
 
+# DOWNLOAD SLACK
+
+RUN export SLACK_VER=$(curl -sSL https://slack.com/release-notes/linux | grep -Poh "Slack \d+\.\d+\.\d+" | cut -d ' ' -f 2 | head -n 1 | tr -d '\n') && \
+    curl -sSL https://downloads.slack-edge.com/releases/linux/$SLACK_VER/prod/x64/slack-$SLACK_VER-0.1.el8.x86_64.rpm -o slack.rpm
+
 RUN rpm-ostree install -y \
       dotnet-sdk-7.0 \
       hugo \
       code \
       cascadia-code-fonts \
+      slack.rpm \
       keepassxc && \
       ln -s /usr/bin/ld.bfd /usr/bin/ld && \
-    rm -r /var/* && \
+    rm -r /var/* && rm slack.rpm && \
     ostree container commit
 
 # RUST
@@ -47,13 +53,6 @@ RUN code --install-extension Ionide.Ionide-fsharp --no-sandbox --user-data-dir $
 
 RUN curl -sSL https://starship.rs/install.sh -o ./install.sh && \
     chmod +x ./install.sh && ./install.sh --yes --bin-dir /usr/bin && rm ./install.sh && \
-    ostree container commit
-
-# SLACK
-
-RUN export SLACK_VER=$(curl -sSL https://slack.com/release-notes/linux | grep -Poh "Slack \d+\.\d+\.\d+" | cut -d ' ' -f 2 | head -n 1 | tr -d '\n') && \
-    curl -sSL https://downloads.slack-edge.com/releases/linux/$SLACK_VER/prod/x64/slack-$SLACK_VER-0.1.el8.x86_64.rpm -o slack.rpm && \
-    rpm-ostree install slack.rpm && rm slack.rpm && \
     ostree container commit
 
 # ROOZ
