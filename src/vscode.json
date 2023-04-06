@@ -12,5 +12,6 @@
   "terminal.integrated.fontFamily": "Cascadia Code PL",
   "terminal.integrated.fontWeightBold": "400",
   "terminal.integrated.fontSize": 18,
-  "workbench.colorTheme": "Pop N' Lock Theme by Luxcium ✨ Alexis's Black ⛷"
+  "workbench.colorTheme": "Pop N' Lock Theme by Luxcium ✨ Alexis's Black ⛷",
+  "dev.containers.dockerPath": "podman"
 }
