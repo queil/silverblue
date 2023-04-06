@@ -12,6 +12,7 @@ RUN rpm-ostree install -y \
       hugo \
       code \
       cascadia-code-fonts \
+      fira-code-fonts \
       slack.rpm \
       keepassxc && \
       ln -s /usr/bin/ld.bfd /usr/bin/ld && \
