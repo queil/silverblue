@@ -1,0 +1,14 @@
+[Unit]
+Before=systemd-user-sessions.service
+Wants=network-online.target
+After=network-online.target
+ConditionPathExists=!/etc/initok
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/queil-init.sh
+ExecStartPost=/usr/bin/touch /etc/initok
+RemainAfterExit=no
+
+[Install]
+WantedBy=multi-user.target
