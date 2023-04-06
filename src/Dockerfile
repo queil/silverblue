@@ -6,7 +6,10 @@ COPY ./custom.sh /etc/
 COPY ./init.sh /usr/bin/queil-init.sh
 COPY ./init.service /lib/systemd/system/queil-init.service
 
-RUN echo ". /etc/custom.sh" >> /etc/bashrc && systemctl enable queil-init && ostree container commit
+RUN echo ". /etc/custom.sh" >> /etc/bashrc && \
+    systemctl enable queil-init && \
+    chmod +x usr/bin/queil-init.sh && \
+    ostree container commit
 
 RUN rpm-ostree install -y \
       dotnet-sdk-7.0 \
