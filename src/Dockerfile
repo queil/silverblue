@@ -41,6 +41,7 @@ RUN code --install-extension Ionide.Ionide-fsharp --no-sandbox --user-data-dir $
     code --install-extension ms-vscode-remote.remote-containers --no-sandbox --user-data-dir $VSCODE_USER_DATA_DIR  && \
     code --install-extension rust-lang.rust-analyzer --no-sandbox --user-data-dir $VSCODE_USER_DATA_DIR && \
     code --install-extension streetsidesoftware.code-spell-checker --no-sandbox --user-data-dir $VSCODE_USER_DATA_DIR && \
+    code --install-extension luxcium.pop-n-lock-theme-vscode --no-sandbox --user-data-dir $VSCODE_USER_DATA_DIR && \
     echo "export VSCODE_EXTENSIONS=${VSCODE_EXTENSIONS}" >> /etc/custom.sh && \
     ostree container commit
 
@@ -56,6 +57,7 @@ RUN curl -sSL https://github.com/queil/rooz/releases/download/v${ROOZ_VER}/rooz 
     ostree container commit
 
 COPY ./settings.dconf /etc/settings.dconf
+COPY ./vscode.json /etc/vscode.json
 COPY ./init.sh /usr/bin/queil-init.sh
 COPY ./init.service /lib/systemd/system/queil-init.service
 
