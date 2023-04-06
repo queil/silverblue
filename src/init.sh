@@ -1,1 +1,1 @@
-echo "1" >> /etc/testhere
+dconf load / < /etc/settings.dconf
