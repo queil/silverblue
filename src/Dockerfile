@@ -2,7 +2,8 @@ FROM quay.io/fedora/fedora-silverblue:39
 
 RUN sh -c 'echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/vscode.repo' 
 
-COPY ./custom.sh /etc/
+COPY ./custom.sh /etc/custom.sh
+COPY ./settings.dconf /etc/settings.dconf
 COPY ./init.sh /usr/bin/queil-init.sh
 COPY ./init.service /lib/systemd/system/queil-init.service
 
