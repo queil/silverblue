@@ -11,7 +11,7 @@ RUN rpm-ostree install -y \
       dotnet-sdk-7.0 \
       hugo \
       code \
-      cascadia-code-fonts \
+      cascadia-fonts-all \
       fira-code-fonts \
       slack.rpm \
       keepassxc && \

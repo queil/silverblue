@@ -2,13 +2,15 @@
   "git.autofetch": true,
   "git.confirmSync": false,
   "git.enableSmartCommit": true,
-  "editor.codeLens": false,  
+  "editor.codeLens": false,
   "editor.fontFamily": "'Fira Code', monospace",
   "editor.fontLigatures": true,
+  "editor.fontSize": 18,
   "extensions.ignoreRecommendations": true,
   "FSharp.smartIndent": true,
   "FSharp.useSdkScripts": true,
   "terminal.integrated.fontFamily": "Cascadia Code PL",
   "terminal.integrated.fontWeightBold": "400",
+  "terminal.integrated.fontSize": 18,
   "workbench.colorTheme": "Pop N' Lock Theme by Luxcium ✨ Alexis's Black ⛷"
 }
