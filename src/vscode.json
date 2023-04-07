@@ -9,6 +9,8 @@
   "extensions.ignoreRecommendations": true,
   "FSharp.smartIndent": true,
   "FSharp.useSdkScripts": true,
+  "rust-analyzer.inlayHints.parameterHints.enable": false,
+  "rust-analyzer.inlayHints.typeHints.enable": false,
   "terminal.integrated.fontFamily": "Cascadia Code PL",
   "terminal.integrated.fontWeightBold": "400",
   "terminal.integrated.fontSize": 18,
