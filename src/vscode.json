@@ -13,6 +13,8 @@
   "FSharp.suggestGitignore": false,
   "rust-analyzer.inlayHints.parameterHints.enable": false,
   "rust-analyzer.inlayHints.typeHints.enable": false,
+  "rust-analyzer.inlayHints.closingBraceHints.enable": false,
+  "rust-analyzer.inlayHints.chainingHints.enable": false,
   "terminal.integrated.fontFamily": "Cascadia Code PL",
   "terminal.integrated.fontWeightBold": "400",
   "terminal.integrated.fontSize": 18,
