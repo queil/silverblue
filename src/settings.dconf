@@ -4,6 +4,10 @@ color-scheme='prefer-dark'
 [org/gnome/settings-daemon/plugins/power]
 ambient-enabled=false
 
+[org/gnome/desktop/peripherals/touchpad]
+tap-to-click=true
+two-finger-scrolling-enabled=true
+
 [org/gnome/settings-daemon/plugins/xsettings]
 rgba-order='bgr'
 
