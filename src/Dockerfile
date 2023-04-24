@@ -16,6 +16,7 @@ RUN rpm-ostree install -y \
       fira-code-fonts \
       slack.rpm \
       keepassxc && \
+      ln -s /usr/bin/ld.bfd /usr/bin/ld && \
       ln -s /usr/share/fontconfig/conf.avail/10-sub-pixel-bgr.conf /etc/fonts/conf.d && \
     rm -r /var/* && rm slack.rpm && \
     ostree container commit
