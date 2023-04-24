@@ -8,6 +8,7 @@ RUN export SLACK_VER=$(curl -sSL https://slack.com/release-notes/linux | grep -P
     curl -sSL https://downloads.slack-edge.com/releases/linux/$SLACK_VER/prod/x64/slack-$SLACK_VER-0.1.el8.x86_64.rpm -o slack.rpm
 
 RUN rpm-ostree install -y \
+      gcc \
       dotnet-sdk-7.0 \
       hugo \
       code \
@@ -15,7 +16,6 @@ RUN rpm-ostree install -y \
       fira-code-fonts \
       slack.rpm \
       keepassxc && \
-      ln -s /usr/bin/ld.bfd /usr/bin/ld && \
       ln -s /usr/share/fontconfig/conf.avail/10-sub-pixel-bgr.conf /etc/fonts/conf.d && \
     rm -r /var/* && rm slack.rpm && \
     ostree container commit
