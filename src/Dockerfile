@@ -2,23 +2,20 @@ FROM quay.io/fedora/fedora-silverblue:39
 
 RUN sh -c 'echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/vscode.repo' 
 
-# DOWNLOAD SLACK
-
-RUN export SLACK_VER=$(curl -sSL https://slack.com/release-notes/linux | grep -Poh "Slack \d+\.\d+\.\d+" | cut -d ' ' -f 2 | head -n 1 | tr -d '\n') && \
-    curl -sSL https://downloads.slack-edge.com/releases/linux/$SLACK_VER/prod/x64/slack-$SLACK_VER-0.1.el8.x86_64.rpm -o slack.rpm
+# DOWNLOAD ZOOM
+RUN curl -sSL https://zoom.us/client/5.14.7.2928/zoom_x86_64.rpm -o zoom.rpm
 
 RUN rpm-ostree install -y \
       gcc \
-      dotnet-sdk-7.0 \
-      hugo \
       code \
+      micro \
       cascadia-fonts-all \
       fira-code-fonts \
-      slack.rpm \
+      zoom.rpm \
       keepassxc && \
       ln -s /usr/bin/ld.bfd /usr/bin/ld && \
       ln -s /usr/share/fontconfig/conf.avail/10-sub-pixel-bgr.conf /etc/fonts/conf.d && \
-    rm -r /var/* && rm slack.rpm && \
+    rm -r /var/* && rm ./*.rpm && \
     ostree container commit
 
 COPY ./custom.sh /etc/custom.sh
@@ -39,8 +36,7 @@ RUN echo "export PATH=${PATH}:${CARGO_HOME}/bin" >> /etc/custom.sh && \
 ARG VSCODE_USER_DATA_DIR=/usr/vscode
 ARG VSCODE_EXTENSIONS=${VSCODE_USER_DATA_DIR}/extensions
 
-RUN code --install-extension Ionide.Ionide-fsharp --no-sandbox --user-data-dir $VSCODE_USER_DATA_DIR && \
-    code --install-extension ms-vscode-remote.remote-containers --no-sandbox --user-data-dir $VSCODE_USER_DATA_DIR  && \
+RUN code --install-extension ms-vscode-remote.remote-containers --no-sandbox --user-data-dir $VSCODE_USER_DATA_DIR  && \
     code --install-extension rust-lang.rust-analyzer --no-sandbox --user-data-dir $VSCODE_USER_DATA_DIR && \
     code --install-extension streetsidesoftware.code-spell-checker --no-sandbox --user-data-dir $VSCODE_USER_DATA_DIR && \
     code --install-extension luxcium.pop-n-lock-theme-vscode --no-sandbox --user-data-dir $VSCODE_USER_DATA_DIR && \
