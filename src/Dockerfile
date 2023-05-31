@@ -1,5 +1,7 @@
 FROM quay.io/fedora/fedora-silverblue:39
 
+RUN rm /opt
+
 RUN sh -c 'echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/vscode.repo' 
 
 # DOWNLOAD ZOOM
@@ -35,6 +37,7 @@ RUN echo "export PATH=${PATH}:${CARGO_HOME}/bin" >> /etc/custom.sh && \
 
 ARG VSCODE_USER_DATA_DIR=/usr/vscode
 ARG VSCODE_EXTENSIONS=${VSCODE_USER_DATA_DIR}/extensions
+ARG DONT_PROMPT_WSL_INSTALL=1
 
 RUN code --install-extension ms-vscode-remote.remote-containers --no-sandbox --user-data-dir $VSCODE_USER_DATA_DIR  && \
     code --install-extension rust-lang.rust-analyzer --no-sandbox --user-data-dir $VSCODE_USER_DATA_DIR && \
