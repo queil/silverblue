@@ -1,11 +1,6 @@
 FROM quay.io/fedora/fedora-silverblue:39
 
-RUN rm /opt
-
 RUN sh -c 'echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/vscode.repo' 
-
-# DOWNLOAD ZOOM
-RUN curl -sSL https://zoom.us/client/5.14.7.2928/zoom_x86_64.rpm -o zoom.rpm
 
 RUN rpm-ostree install -y \
       gcc \
@@ -13,7 +8,6 @@ RUN rpm-ostree install -y \
       micro \
       cascadia-fonts-all \
       fira-code-fonts \
-      zoom.rpm \
       keepassxc && \
       ln -s /usr/bin/ld.bfd /usr/bin/ld && \
       ln -s /usr/share/fontconfig/conf.avail/10-sub-pixel-bgr.conf /etc/fonts/conf.d && \
