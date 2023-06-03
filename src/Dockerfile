@@ -11,7 +11,7 @@ RUN rpm-ostree install -y \
       keepassxc && \
       ln -s /usr/bin/ld.bfd /usr/bin/ld && \
       ln -s /usr/share/fontconfig/conf.avail/10-sub-pixel-bgr.conf /etc/fonts/conf.d && \
-    rm -r /var/* && rm ./*.rpm && \
+    rm -r /var/* && \
     ostree container commit
 
 COPY ./custom.sh /etc/custom.sh
