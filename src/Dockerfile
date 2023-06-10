@@ -47,7 +47,7 @@ RUN curl -sSL https://starship.rs/install.sh -o ./install.sh && \
     ostree container commit
 
 # ROOZ
-ARG ROOZ_VER=0.31.0
+ARG ROOZ_VER=0.32.0
 RUN curl -sSL https://github.com/queil/rooz/releases/download/v${ROOZ_VER}/rooz -o ./rooz && chmod +x ./rooz && sudo mv ./rooz /usr/bin && \
     ostree container commit
 
