@@ -41,6 +41,10 @@ RUN code --install-extension ms-vscode-remote.remote-containers --no-sandbox --u
     echo "export VSCODE_EXTENSIONS=${VSCODE_EXTENSIONS}" >> /etc/custom.sh && \
     ostree container commit
 
+# vscode-lld extension's adapter
+RUN curl -sSf -L https://github.com/vadimcn/codelldb/releases/latest/download/codelldb-x86_64-linux.vsix -o /tmp/codelldb-x86_64-linux.zip && \
+    mkdir -p /tmp/codelldb && unzip /tmp/codelldb-x86_64-linux.vsix 'extension/adapter/*' -d /tmp/codelldb && mv /tmp/codelldb/extension/adapter "${VSCODE_EXTENSIONS}/vadimcn.vscode-lldb-*/"
+
 # STARSHIP
 
 RUN curl -sSL https://starship.rs/install.sh -o ./install.sh && \
