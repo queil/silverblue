@@ -35,6 +35,7 @@ ARG DONT_PROMPT_WSL_INSTALL=1
 
 RUN code --install-extension ms-vscode-remote.remote-containers --no-sandbox --user-data-dir $VSCODE_USER_DATA_DIR  && \
     code --install-extension rust-lang.rust-analyzer --no-sandbox --user-data-dir $VSCODE_USER_DATA_DIR && \
+    code --install-extension vadimcn.vscode-lldb --no-sandbox --user-data-dir $VSCODE_USER_DATA_DIR && \
     code --install-extension streetsidesoftware.code-spell-checker --no-sandbox --user-data-dir $VSCODE_USER_DATA_DIR && \
     code --install-extension luxcium.pop-n-lock-theme-vscode --no-sandbox --user-data-dir $VSCODE_USER_DATA_DIR && \
     echo "export VSCODE_EXTENSIONS=${VSCODE_EXTENSIONS}" >> /etc/custom.sh && \
