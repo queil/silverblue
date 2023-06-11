@@ -42,8 +42,8 @@ RUN code --install-extension ms-vscode-remote.remote-containers --no-sandbox --u
     ostree container commit
 
 # vscode-lld extension's adapter
-RUN export CODE_LLDB_VER="$(curl -ILs -o /dev/null -w %{url_effective} https://github.com/vadimcn/codelldb/releases/latest | grep -Eo 'v([0-9\.]+)' | cut -c2- )"
-    export CODE_LLDB_PATH="${VSCODE_EXTENSIONS}/vadimcn.vscode-lldb-${CODE_LLDB_VER}/"
+RUN export CODE_LLDB_VER="$(curl -ILs -o /dev/null -w %{url_effective} https://github.com/vadimcn/codelldb/releases/latest | grep -Eo 'v([0-9\.]+)' | cut -c2- )" && \
+    export CODE_LLDB_PATH="${VSCODE_EXTENSIONS}/vadimcn.vscode-lldb-${CODE_LLDB_VER}/" && \
     curl -sSf -L https://github.com/vadimcn/codelldb/releases/latest/download/codelldb-x86_64-linux.vsix -o /tmp/codelldb-x86_64-linux.zip && \
     mkdir -p /tmp/codelldb && unzip /tmp/codelldb-x86_64-linux.zip 'extension/*' -d /tmp/codelldb && \
     cp /tmp/codelldb/extension/* -R "$CODE_LLDB_PATH" && \
