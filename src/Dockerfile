@@ -29,7 +29,7 @@ RUN echo "export PATH=${PATH}:${CARGO_HOME}/bin" >> /etc/custom.sh && \
 
 # VSCODE
 
-ARG VSCODE_USER_DATA_DIR=/usr/vscode
+ARG VSCODE_USER_DATA_DIR=/usr/share/vscode
 ARG VSCODE_EXTENSIONS=${VSCODE_USER_DATA_DIR}/extensions
 ARG DONT_PROMPT_WSL_INSTALL=1
 
@@ -42,8 +42,12 @@ RUN code --install-extension ms-vscode-remote.remote-containers --no-sandbox --u
     ostree container commit
 
 # vscode-lld extension's adapter
-RUN curl -sSf -L https://github.com/vadimcn/codelldb/releases/latest/download/codelldb-x86_64-linux.vsix -o /tmp/codelldb-x86_64-linux.zip && \
-    mkdir -p /tmp/codelldb && unzip /tmp/codelldb-x86_64-linux.zip 'extension/adapter/*' -d /tmp/codelldb && mv /tmp/codelldb/extension/adapter "${VSCODE_EXTENSIONS}/vadimcn.vscode-lldb-*/"
+RUN export CODE_LLDB_VER="$(curl -ILs -o /dev/null -w %{url_effective} https://github.com/vadimcn/codelldb/releases/latest | grep -Eo 'v([0-9\.]+)' | cut -c2- )"
+    export CODE_LLDB_PATH="${VSCODE_EXTENSIONS}/vadimcn.vscode-lldb-${CODE_LLDB_VER}/"
+    curl -sSf -L https://github.com/vadimcn/codelldb/releases/latest/download/codelldb-x86_64-linux.vsix -o /tmp/codelldb-x86_64-linux.zip && \
+    mkdir -p /tmp/codelldb && unzip /tmp/codelldb-x86_64-linux.zip 'extension/*' -d /tmp/codelldb && \
+    cp /tmp/codelldb/extension/* -R "$CODE_LLDB_PATH" && \
+    touch "${CODE_LLDB_PATH}/platform.ok"
 
 # STARSHIP
 
