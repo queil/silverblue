@@ -75,5 +75,5 @@ COPY ./init.sh /usr/bin/queil-init.sh
 COPY ./init.service /lib/systemd/system/queil-init.service
 
 RUN echo ". /etc/custom.sh" >> /etc/bashrc && \
-    chmod +x usr/bin/queil-init.sh && \
+    chmod +x /usr/bin/queil-init.sh && \
     ostree container commit
