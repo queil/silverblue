@@ -1,6 +1,15 @@
-FROM quay.io/fedora/fedora-silverblue:39
+FROM quay.io/fedora/fedora-silverblue:39 as base
 
 RUN sh -c 'echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/vscode.repo' 
+
+WORKDIR /tmp/install
+
+RUN curl -sSL https://zoom.us/client/5.14.7.2928/zoom_x86_64.rpm -o zoom.rpm
+RUN rpm2cpio zoom.rpm | cpio -di && mv ./opt/* /usr/share/ && cp ./usr/share/* -R /usr/share/ && \
+    ln -s /usr/share/zoom/ZoomLauncher /usr/bin/zoom
+RUN ostree container commit
+
+FROM base as install
 
 RUN rpm-ostree install -y \
       gcc \
@@ -56,7 +65,7 @@ RUN curl -sSL https://starship.rs/install.sh -o ./install.sh && \
     ostree container commit
 
 # ROOZ
-ARG ROOZ_VER=0.33.0
+ARG ROOZ_VER=0.34.0
 RUN curl -sSL https://github.com/queil/rooz/releases/download/v${ROOZ_VER}/rooz -o ./rooz && chmod +x ./rooz && sudo mv ./rooz /usr/bin && \
     ostree container commit
 
