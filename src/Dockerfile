@@ -12,7 +12,6 @@ RUN ostree container commit
 FROM base as install
 
 RUN rpm-ostree install -y \
-      glibc \
       gcc \
       code \
       micro \
