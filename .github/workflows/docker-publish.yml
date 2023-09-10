@@ -27,4 +27,4 @@ jobs:
         with:
           context: src
           push: true
-          tags: ghcr.io/${{ github.repository }}:39-${{ env.VERSION }},ghcr.io/${{ github.repository }}:39-stable
+          tags: ghcr.io/${{ github.repository }}:40-${{ env.VERSION }},ghcr.io/${{ github.repository }}:40-stable
