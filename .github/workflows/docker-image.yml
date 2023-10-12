@@ -21,7 +21,7 @@ jobs:
         uses: redhat-actions/buildah-build@v2
         with:
           image: ${{ env.IMAGE_NAME }}
-          tags: stable ${{ github.sha }}
+          tags: 40-stable ${{ github.sha }}
           context: ./src
           containerfiles: |
             ./src/Containerfile
