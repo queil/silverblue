@@ -3,8 +3,6 @@ name: Build image
 on:
   push:
     branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
 
 jobs:
   build:
@@ -23,7 +21,7 @@ jobs:
         uses: redhat-actions/buildah-build@v2
         with:
           image: ${{ env.IMAGE_NAME }}
-          tags: latest ${{ github.sha }}
+          tags: stable ${{ github.sha }}
           context: ./src
           containerfiles: |
             ./src/Containerfile
