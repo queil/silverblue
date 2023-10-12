@@ -58,6 +58,14 @@ RUN export CODE_LLDB_VER="$(curl -ILs -o /dev/null -w %{url_effective} https://g
     cp /tmp/codelldb/extension/* -R "$CODE_LLDB_PATH" && \
     touch "${CODE_LLDB_PATH}/platform.ok"
 
+# RIDER
+
+RUN curl -sSL https://www.jetbrains.com/rider/download/download-thanks.html?platform=linux -o rider.tar.gz && \
+    mkdir -p /usr/bin/rider && \
+    tar -xzf rider.tar.gz -C /usr/bin/rider && \
+    rm ./rider.tar.gz && \
+    ostree container commit
+
 # STARSHIP
 
 RUN curl -sSL https://starship.rs/install.sh -o ./install.sh && \
