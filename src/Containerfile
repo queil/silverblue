@@ -4,7 +4,7 @@ RUN sh -c 'echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.mi
 
 WORKDIR /tmp/install
 
-RUN curl -sSL https://zoom.us/client/5.15.12.7665/zoom_x86_64.rpm -o zoom.rpm
+RUN curl -sSL https://zoom.us/client/5.16.2.8828/zoom_x86_64.rpm -o zoom.rpm
 RUN rpm2cpio zoom.rpm | cpio -di && mv ./opt/* /usr/share/ && cp ./usr/share/* -R /usr/share/ && \
     ln -s /usr/share/zoom/ZoomLauncher /usr/bin/zoom
 RUN ostree container commit
