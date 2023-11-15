@@ -5,7 +5,7 @@ Playing with [Ostree Native Containers](https://fedoraproject.org/wiki/Changes/O
 The image can be rebased to via:
 
 ```bash
-rpm-ostree rebase --experimental ostree-unverified-registry:ghcr.io/queil/silverblue:40-stable
+rpm-ostree rebase --experimental ostree-unverified-registry:ghcr.io/queil/silverblue:39-stable
 ```
 
 Then upgraded via:
