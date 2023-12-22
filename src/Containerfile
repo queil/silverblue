@@ -17,7 +17,8 @@ RUN rpm-ostree install -y \
       micro \
       cascadia-fonts-all \
       fira-code-fonts \
-      keepassxc \ 
+      keepassxc \
+      akmod-intel-ipu6 \
       kitty && \
       ln -s /usr/bin/ld.bfd /usr/bin/ld && \
       ln -s /usr/share/fontconfig/conf.avail/10-sub-pixel-bgr.conf /etc/fonts/conf.d && \
@@ -60,13 +61,13 @@ RUN export CODE_LLDB_VER="$(curl -ILs -o /dev/null -w %{url_effective} https://g
     touch "${CODE_LLDB_PATH}/platform.ok"
 
 # RIDER
-# ARG RIDER_VERSION=2023.3.2
-# RUN curl -sSL "https://download.jetbrains.com/rider/JetBrains.Rider-${RIDER_VERSION}.tar.gz" -o rider.tar.gz && \
-#    mkdir -p /usr/bin/rider && mkdir /tmp/rider && \
-#    tar -xzf rider.tar.gz -C /tmp/rider && \
-#    rm ./rider.tar.gz && \
-#    cp -R /tmp/rider/*/* /usr/bin/rider && \
-#    ostree container commit
+ARG RIDER_VERSION=2023.3.2
+RUN curl -sSL "https://download.jetbrains.com/rider/JetBrains.Rider-${RIDER_VERSION}.tar.gz" -o rider.tar.gz && \
+   mkdir ./rider && \
+   tar -xzf rider.tar.gz -C ./rider --strip-components=1 && \
+   rm ./rider.tar.gz && \
+   mv ./rider/ /usr/bin/ && \
+   ostree container commit
 
 # STARSHIP
 
