@@ -4,7 +4,7 @@ RUN sh -c 'echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.mi
 
 WORKDIR /tmp/install
 
-RUN curl -sSL https://zoom.us/client/5.16.2.8828/zoom_x86_64.rpm -o zoom.rpm
+RUN curl -sSL https://zoom.us/client/5.17.0.1682/zoom_x86_64.rpm -o zoom.rpm
 RUN rpm2cpio zoom.rpm | cpio -di && mv ./opt/* /usr/share/ && cp ./usr/share/* -R /usr/share/ && \
     ln -s /usr/share/zoom/ZoomLauncher /usr/bin/zoom
 RUN ostree container commit
@@ -60,7 +60,7 @@ RUN export CODE_LLDB_VER="$(curl -ILs -o /dev/null -w %{url_effective} https://g
     touch "${CODE_LLDB_PATH}/platform.ok"
 
 # RIDER
-ARG RIDER_VERSION=2023.2.2
+ARG RIDER_VERSION=2023.3.2
 RUN curl -sSL "https://download.jetbrains.com/rider/JetBrains.Rider-${RIDER_VERSION}.tar.gz" -o rider.tar.gz && \
     mkdir -p /usr/bin/rider && \
     tar -xzf rider.tar.gz -C /usr/bin/rider && \
