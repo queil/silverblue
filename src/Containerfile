@@ -62,9 +62,10 @@ RUN export CODE_LLDB_VER="$(curl -ILs -o /dev/null -w %{url_effective} https://g
 # RIDER
 ARG RIDER_VERSION=2023.3.2
 RUN curl -sSL "https://download.jetbrains.com/rider/JetBrains.Rider-${RIDER_VERSION}.tar.gz" -o rider.tar.gz && \
-    mkdir -p /usr/bin/rider && chmod 755 /usr/bin/rider && \
-    tar -xzf rider.tar.gz -C /usr/bin/rider --no-same-owner --no-overwrite-dir && \
+    mkdir -p /usr/bin/rider && mkdir /tmp/rider && \
+    tar -xzf rider.tar.gz -C /tmp/rider && \
     rm ./rider.tar.gz && \
+    cp -R /tmp/rider/*/* /usr/bin/rider && \
     ostree container commit
 
 # STARSHIP
@@ -72,6 +73,8 @@ RUN curl -sSL "https://download.jetbrains.com/rider/JetBrains.Rider-${RIDER_VERS
 RUN curl -sSL https://starship.rs/install.sh -o ./install.sh && \
     chmod +x ./install.sh && ./install.sh --yes --bin-dir /usr/bin && rm ./install.sh && \
     ostree container commit
+
+RUN whoami
 
 # ROOZ
 ARG ROOZ_VER=0.47.0
