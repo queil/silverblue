@@ -5,8 +5,8 @@ WORKDIR /tmp/install
 # RIDER
 ARG RIDER_VERSION=2023.3.2
 RUN curl -sSL "https://download.jetbrains.com/rider/JetBrains.Rider-${RIDER_VERSION}.tar.gz" -o rider.tar.gz && \
-   mkdir ./rider && chmod 777 ./rider && \
-   sudo tar -xzf rider.tar.gz -C ./rider --no-same-owner --no-same-permissions --touch --strip-components=1 --no-overwrite-dir && \
+   mkdir ./rider && \
+   sudo tar -xzf rider.tar.gz -C ./rider --strip-components=1 && \
    rm ./rider.tar.gz && \
    mv ./rider/ /usr/bin/ && \
    ostree container commit
@@ -21,6 +21,7 @@ RUN rpm-ostree install -y \
       fira-code-fonts \
       keepassxc \
       kitty && \
+      tailscale && \
       ln -s /usr/bin/ld.bfd /usr/bin/ld && \
       ln -s /usr/share/fontconfig/conf.avail/10-sub-pixel-bgr.conf /etc/fonts/conf.d && \
     rm -r /var/* && \
