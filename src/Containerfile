@@ -62,8 +62,8 @@ RUN export CODE_LLDB_VER="$(curl -ILs -o /dev/null -w %{url_effective} https://g
 # RIDER
 ARG RIDER_VERSION=2023.3.2
 RUN curl -sSL "https://download.jetbrains.com/rider/JetBrains.Rider-${RIDER_VERSION}.tar.gz" -o rider.tar.gz && \
-   mkdir ./rider && \
-   tar -xzfm rider.tar.gz -C ./rider --strip-components=1 --no-overwrite-dir && \
+   mkdir ./rider && chmod a+w ./rider && \
+   tar -xzf rider.tar.gz -C ./rider --touch --strip-components=1 --no-overwrite-dir && \
    rm ./rider.tar.gz && \
    mv ./rider/ /usr/bin/ && \
    ostree container commit
