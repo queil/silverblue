@@ -4,9 +4,9 @@ RUN sh -c 'echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.mi
 
 WORKDIR /tmp/install
 
-USER 1000
-
 RUN chmod 777 /tmp/install
+
+USER 1000
 
 RUN curl -sSL https://zoom.us/client/5.17.0.1682/zoom_x86_64.rpm -o zoom.rpm
 RUN rpm2cpio zoom.rpm | cpio -di && mv ./opt/* /usr/share/ && cp ./usr/share/* -R /usr/share/ && \
