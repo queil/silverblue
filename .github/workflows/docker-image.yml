@@ -19,6 +19,13 @@ jobs:
       - name: "Fix no space left on device"
         run: rm -rf /opt/hostedtoolcache
 
+      - name: "Prepare Rider"
+        run: | 
+           curl -sSL "https://download.jetbrains.com/rider/JetBrains.Rider-2023.3.2.tar.gz" -o rider.tar.gz && \
+           mkdir ./rider && \
+           tar -xzf rider.tar.gz -C ./rider --touch --strip-components=1 --no-overwrite-dir && \
+           rm ./rider.tar.gz
+    
       - name: Buildah Action
         id: build-image
         uses: redhat-actions/buildah-build@v2
