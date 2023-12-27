@@ -6,8 +6,6 @@ WORKDIR /tmp/install
 
 RUN chmod 777 /tmp/install
 
-USER 1000
-
 RUN curl -sSL https://zoom.us/client/5.17.0.1682/zoom_x86_64.rpm -o zoom.rpm
 RUN rpm2cpio zoom.rpm | cpio -di && mv ./opt/* /usr/share/ && cp ./usr/share/* -R /usr/share/ && \
     ln -s /usr/share/zoom/ZoomLauncher /usr/bin/zoom
