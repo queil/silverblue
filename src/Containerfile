@@ -6,7 +6,7 @@ WORKDIR /tmp/install
 ARG RIDER_VERSION=2023.3.2
 RUN curl -sSL "https://download.jetbrains.com/rider/JetBrains.Rider-${RIDER_VERSION}.tar.gz" -o rider.tar.gz && \
    mkdir ./rider && chmod 777 ./rider && \
-   tar -xzf rider.tar.gz --no-same-owner --no-same-permissions --touch --strip-components=1 --no-overwrite-dir && \
+   sudo tar -xzf rider.tar.gz -C ./rider --no-same-owner --no-same-permissions --touch --strip-components=1 --no-overwrite-dir && \
    rm ./rider.tar.gz && \
    mv ./rider/ /usr/bin/ && \
    ostree container commit
