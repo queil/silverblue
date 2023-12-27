@@ -1,17 +1,8 @@
-FROM registry.fedoraproject.org/fedora-silverblue:rawhide as base
-
-RUN sh -c 'echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/vscode.repo' 
+FROM registry.fedoraproject.org/fedora-silverblue:rawhide@sha256:2dda59ef9ea37646981680500259b95a4ac1c4e46edacb305343af92c61876bd as base
 
 WORKDIR /tmp/install
 
-RUN chmod 777 /tmp/install
-
-RUN curl -sSL https://zoom.us/client/5.17.0.1682/zoom_x86_64.rpm -o zoom.rpm
-RUN rpm2cpio zoom.rpm | cpio -di && mv ./opt/* /usr/share/ && cp ./usr/share/* -R /usr/share/ && \
-    ln -s /usr/share/zoom/ZoomLauncher /usr/bin/zoom
-RUN ostree container commit
-
-FROM base as install
+COPY etc/yum.repos.d/* /etc/yum.repos.d/
 
 RUN rpm-ostree install -y \
       gcc \
@@ -27,6 +18,13 @@ RUN rpm-ostree install -y \
     ostree container commit
 
 COPY ./custom.sh /etc/custom.sh
+RUN ostree container commit
+
+# ZOOM
+
+RUN curl -sSL https://zoom.us/client/5.17.0.1682/zoom_x86_64.rpm -o zoom.rpm
+RUN rpm2cpio zoom.rpm | cpio -di && mv ./opt/* /usr/share/ && cp ./usr/share/* -R /usr/share/ && \
+    ln -s /usr/share/zoom/ZoomLauncher /usr/bin/zoom
 RUN ostree container commit
 
 # RUST
