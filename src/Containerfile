@@ -18,7 +18,6 @@ RUN rpm-ostree install -y \
       cascadia-fonts-all \
       fira-code-fonts \
       keepassxc \
-      akmod-intel-ipu6 \
       kitty && \
       ln -s /usr/bin/ld.bfd /usr/bin/ld && \
       ln -s /usr/share/fontconfig/conf.avail/10-sub-pixel-bgr.conf /etc/fonts/conf.d && \
@@ -75,7 +74,9 @@ RUN curl -sSL https://starship.rs/install.sh -o ./install.sh && \
     chmod +x ./install.sh && ./install.sh --yes --bin-dir /usr/bin && rm ./install.sh && \
     ostree container commit
 
-RUN whoami
+# TAILSCALE
+
+RUN curl -fsSL https://tailscale.com/install.sh | sh
 
 # ROOZ
 ARG ROOZ_VER=0.47.0
