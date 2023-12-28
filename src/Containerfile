@@ -6,9 +6,9 @@ WORKDIR /tmp/install
 ARG RIDER_VERSION=2023.3.2
 RUN curl -sSL "https://download.jetbrains.com/rider/JetBrains.Rider-${RIDER_VERSION}.tar.gz" -o rider.tar.gz && \
    mkdir ./rider && \
-   sudo tar -xzf rider.tar.gz -C ./rider --strip-components=1 && \
+   sudo tar -xzf rider.tar.gz -C ./rider && \
    rm ./rider.tar.gz && \
-   mv ./rider/ /usr/bin/ && \
+   mv ./rider/* /usr/bin/rider/ && \
    ostree container commit
 
 COPY etc/yum.repos.d/* /etc/yum.repos.d/
