@@ -6,7 +6,7 @@ WORKDIR /tmp/install
 
 RUN curl -sSL "https://static.perimeter81.com/agents/linux/Perimeter81_8.1.0.778.tar.xz" -o peri81.tar.xz && \
     mkdir ./perimeter81 && \
-    tar -xf peri81.tar.xz -C ./perimeter81 && \
+    umask 022 && tar -xf peri81.tar.xz -C ./perimeter81 --no-same-permissions --strip-components=1 && \
     rm ./peri81.tar.xz && \
     mv ./perimeter81/ /usr/bin/ && \
     ostree container commit
@@ -38,7 +38,7 @@ RUN curl -sSL https://zoom.us/client/5.17.0.1682/zoom_x86_64.rpm -o zoom.rpm && 
 ARG RIDER_VERSION=2023.3.2
 RUN curl -sSL "https://download.jetbrains.com/rider/JetBrains.Rider-${RIDER_VERSION}.tar.gz" -o rider.tar.gz && \
    mkdir ./rider && \
-   tar -xzf rider.tar.gz -C ./rider && \
+   umask 022 && tar -xzf rider.tar.gz -C ./rider --no-same-permissions --strip-components=1 && \
    rm ./rider.tar.gz && \
    mv ./rider/ /usr/bin/ && \
    ostree container commit
