@@ -5,10 +5,10 @@ WORKDIR /tmp/install
 # PERIMITER 81
 
 RUN curl -sSL "https://static.perimeter81.com/agents/linux/Perimeter81_8.1.0.778.tar.xz" -o peri81.tar.xz && \
-    mkdir ./peri81 && \
-    sudo tar -xf peri81.tar.xz -C ./peri81 && \
+    mkdir ./perimeter81 && \
+    tar -xf peri81.tar.xz -C ./perimeter81 && \
     rm ./peri81.tar.xz && \
-    mv ./peri81/ /usr/bin/perimeter81/ && \
+    mv ./perimeter81/ /usr/bin/ && \
     ostree container commit
 
 COPY ./etc/ /etc/
@@ -38,9 +38,9 @@ RUN curl -sSL https://zoom.us/client/5.17.0.1682/zoom_x86_64.rpm -o zoom.rpm && 
 ARG RIDER_VERSION=2023.3.2
 RUN curl -sSL "https://download.jetbrains.com/rider/JetBrains.Rider-${RIDER_VERSION}.tar.gz" -o rider.tar.gz && \
    mkdir ./rider && \
-   sudo tar -xzf rider.tar.gz -C ./rider && \
+   tar -xzf rider.tar.gz -C ./rider && \
    rm ./rider.tar.gz && \
-   mv ./rider/* /usr/bin/rider/ && \
+   mv ./rider/ /usr/bin/ && \
    ostree container commit
 
 # RUST
