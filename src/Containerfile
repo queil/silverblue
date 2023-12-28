@@ -2,16 +2,13 @@ FROM registry.fedoraproject.org/fedora-silverblue:rawhide@sha256:2dda59ef9ea3764
 
 WORKDIR /tmp/install
 
-# RIDER
-ARG RIDER_VERSION=2023.3.2
-RUN curl -sSL "https://download.jetbrains.com/rider/JetBrains.Rider-${RIDER_VERSION}.tar.gz" -o rider.tar.gz && \
-   mkdir ./rider && \
-   sudo tar -xzf rider.tar.gz -C ./rider && \
-   rm ./rider.tar.gz && \
-   mv ./rider/* /usr/bin/rider/ && \
-   ostree container commit
+COPY ./etc/ /etc/
 
-COPY etc/yum.repos.d/* /etc/yum.repos.d/
+RUN echo ". /etc/custom.sh" >> /etc/bashrc && \
+	ln -s /etc/custom/init.sh /usr/bin/queil-init.sh && \
+    chmod +x /usr/bin/queil-init.sh && \
+    ln -s /etc/custom/init.service /lib/systemd/system/queil-init.service && \
+    ostree container commit
 
 RUN rpm-ostree install -y \
       gcc \
@@ -27,15 +24,21 @@ RUN rpm-ostree install -y \
     rm -r /var/* && \
     ostree container commit
 
-COPY ./custom/ /etc/custom/
-RUN ostree container commit
-
 # ZOOM
 
-RUN curl -sSL https://zoom.us/client/5.17.0.1682/zoom_x86_64.rpm -o zoom.rpm
-RUN rpm2cpio zoom.rpm | cpio -di && mv ./opt/* /usr/share/ && cp ./usr/share/* -R /usr/share/ && \
-    ln -s /usr/share/zoom/ZoomLauncher /usr/bin/zoom
-RUN ostree container commit
+RUN curl -sSL https://zoom.us/client/5.17.0.1682/zoom_x86_64.rpm -o zoom.rpm && \
+    rpm2cpio zoom.rpm | cpio -di && mv ./opt/* /usr/share/ && cp ./usr/share/* -R /usr/share/ && \
+    ln -s /usr/share/zoom/ZoomLauncher /usr/bin/zoom && \
+    ostree container commit
+
+# RIDER
+ARG RIDER_VERSION=2023.3.2
+RUN curl -sSL "https://download.jetbrains.com/rider/JetBrains.Rider-${RIDER_VERSION}.tar.gz" -o rider.tar.gz && \
+   mkdir ./rider && \
+   sudo tar -xzf rider.tar.gz -C ./rider && \
+   rm ./rider.tar.gz && \
+   mv ./rider/* /usr/bin/rider/ && \
+   ostree container commit
 
 # RUST
 
@@ -78,13 +81,4 @@ RUN curl -sSL https://starship.rs/install.sh -o ./install.sh && \
 # ROOZ
 ARG ROOZ_VER=0.47.0
 RUN curl -sSL https://github.com/queil/rooz/releases/download/v${ROOZ_VER}/rooz -o ./rooz && chmod +x ./rooz && sudo mv ./rooz /usr/bin && \
-    ostree container commit
-
-COPY ./settings.dconf /etc/settings.dconf
-COPY ./vscode.json /etc/vscode.json
-COPY ./init.sh /usr/bin/queil-init.sh
-COPY ./init.service /lib/systemd/system/queil-init.service
-
-RUN echo ". /etc/custom.sh" >> /etc/bashrc && \
-    chmod +x /usr/bin/queil-init.sh && \
     ostree container commit
