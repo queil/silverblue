@@ -2,6 +2,16 @@ FROM registry.fedoraproject.org/fedora-silverblue:rawhide@sha256:2dda59ef9ea3764
 
 WORKDIR /tmp/install
 
+
+# PERIMITER 81
+
+RUN curl -sSL "https://static.perimeter81.com/agents/linux/Perimeter81_8.1.0.778.tar.xz" -o peri81.tar.xz && \
+    mkdir ./peri81 && \
+    sudo tar -xf peri81.tar.xz && \
+    rm ./peri81.tar.xz && \
+    mv ./peri81/ /usr/bin/perimeter81/ && \
+    ostree container commit
+
 COPY ./etc/ /etc/
 
 RUN echo ". /etc/custom.sh" >> /etc/bashrc && \
