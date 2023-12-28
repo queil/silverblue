@@ -27,7 +27,7 @@ RUN rpm-ostree install -y \
     rm -r /var/* && \
     ostree container commit
 
-COPY ./custom.sh /etc/custom.sh
+COPY ./custom/ /etc/custom/
 RUN ostree container commit
 
 # ZOOM
