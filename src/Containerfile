@@ -1,4 +1,4 @@
-FROM registry.fedoraproject.org/fedora-silverblue:rawhide@sha256:2dda59ef9ea37646981680500259b95a4ac1c4e46edacb305343af92c61876bd as base
+FROM registry.fedoraproject.org/fedora-silverblue:rawhide@sha256:d7c4ff2bcc9b5bf4f6cf156befed85f912d14bb2f3e245f39cc71b73c91b13ba as base
 
 WORKDIR /tmp/install
 
