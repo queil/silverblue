@@ -2,23 +2,16 @@ FROM registry.fedoraproject.org/fedora-silverblue:rawhide@sha256:2dda59ef9ea3764
 
 WORKDIR /tmp/install
 
-
 # PERIMITER 81
 
 RUN curl -sSL "https://static.perimeter81.com/agents/linux/Perimeter81_8.1.0.778.tar.xz" -o peri81.tar.xz && \
     mkdir ./peri81 && \
-    sudo tar -xf peri81.tar.xz && \
+    sudo tar -xf peri81.tar.xz -C ./peri81 && \
     rm ./peri81.tar.xz && \
     mv ./peri81/ /usr/bin/perimeter81/ && \
     ostree container commit
 
 COPY ./etc/ /etc/
-
-RUN echo ". /etc/custom.sh" >> /etc/bashrc && \
-	ln -s /etc/custom/init.sh /usr/bin/queil-init.sh && \
-    chmod +x /usr/bin/queil-init.sh && \
-    ln -s /etc/custom/init.service /lib/systemd/system/queil-init.service && \
-    ostree container commit
 
 RUN rpm-ostree install -y \
       gcc \
@@ -91,4 +84,10 @@ RUN curl -sSL https://starship.rs/install.sh -o ./install.sh && \
 # ROOZ
 ARG ROOZ_VER=0.47.0
 RUN curl -sSL https://github.com/queil/rooz/releases/download/v${ROOZ_VER}/rooz -o ./rooz && chmod +x ./rooz && sudo mv ./rooz /usr/bin && \
+    ostree container commit
+
+RUN echo ". /etc/custom/custom.sh" >> /etc/bashrc && \
+	ln -s /etc/custom/init.sh /usr/bin/queil-init.sh && \
+    chmod +x /usr/bin/queil-init.sh && \
+    ln -s /etc/custom/init.service /lib/systemd/system/queil-init.service && \
     ostree container commit
