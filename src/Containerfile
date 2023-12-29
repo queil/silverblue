@@ -51,7 +51,7 @@ RUN curl -sSL "https://download.jetbrains.com/rider/JetBrains.Rider-${RIDER_VERS
 ARG CARGO_HOME=/usr/bin/.cargo
 ARG RUSTUP_HOME=/usr/bin/.rustup
 
-RUN echo "export PATH=${PATH}:${CARGO_HOME}/bin" >> /etc/custom.sh && \
+RUN echo "export PATH=${PATH}:${CARGO_HOME}/bin" >> /etc/custom/custom.sh && \
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --no-modify-path && \
     ostree container commit
 
