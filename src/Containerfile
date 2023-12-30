@@ -4,15 +4,27 @@ WORKDIR /tmp/install
 
 # PERIMITER 81
 
-RUN curl -sSL "https://static.perimeter81.com/agents/linux/Perimeter81_8.1.0.778.tar.xz" -o peri81.tar.xz && \
-    mkdir ./perimeter81 && \
-    tar -xf peri81.tar.xz -C ./perimeter81 --no-same-permissions --strip-components=1 && \
-    rm ./peri81.tar.xz && \
-    chmod -R 755 ./perimeter81/ && \
-    mv ./perimeter81/ /usr/bin/ && \
-    ostree container commit
+# RUN curl -sSL "https://static.perimeter81.com/agents/linux/Perimeter81_8.1.0.778.tar.xz" -o peri81.tar.xz && \
+    # mkdir ./perimeter81 && \
+    # tar -xf peri81.tar.xz -C ./perimeter81 --no-same-permissions --strip-components=1 && \
+    # rm ./peri81.tar.xz && \
+    # chmod -R 755 ./perimeter81/ && \
+    # mv ./perimeter81/ /usr/bin/ && \
+    # ostree container commit
 
 COPY ./etc/ /etc/
+
+RUN rpm-ostree install -y \
+    https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm \
+    https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm \
+    && \
+	rpm-ostree install -y \
+	--enablerepo=updates-testing \
+    --enablerepo=rpmfusion-free-updates-testing \
+    --enablerepo=rpmfusion-nonfree-updates-testing \
+    'kernel*' \
+    && \
+    ostree container commit
 
 RUN rpm-ostree install -y \
       gcc \
@@ -22,7 +34,9 @@ RUN rpm-ostree install -y \
       fira-code-fonts \
       keepassxc \
       kitty \
-      tailscale && \
+      tailscale \
+      akmod-intel-ipu6 \
+      && \
       ln -s /usr/bin/ld.bfd /usr/bin/ld && \
       ln -s /usr/share/fontconfig/conf.avail/10-sub-pixel-bgr.conf /etc/fonts/conf.d && \
     rm -r /var/* && \
